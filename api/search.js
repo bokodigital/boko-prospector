@@ -1,19 +1,16 @@
 /**
  * Boko B2B Prospector — Apollo search proxy (Vercel serverless function)
  *
- * Why this is a server function and not browser code:
- *   the Apollo API key must NEVER reach the browser, or anyone viewing the
- *   site could copy it and burn your credits. The key lives only in the
- *   Vercel environment variable APOLLO_API_KEY and is used here, server-side.
+ * The Apollo API key lives only in the Vercel env var APOLLO_API_KEY and is
+ * used server-side here, never exposed to the browser.
  *
- * Environment variables (set in Vercel → Project → Settings → Environment Variables):
- *   APOLLO_API_KEY  (required) — your Apollo MASTER api key
- *   APP_PASSWORD    (recommended) — a shared passcode; if set, callers must send it.
- *                   Stops a public URL from spending your Apollo credits.
+ * Env vars:
+ *   APOLLO_API_KEY  (required) — Apollo MASTER api key
+ *   APP_PASSWORD    (recommended) — shared passcode gate
  *
- * Apollo docs:
+ * Apollo endpoints:
  *   Search (no credits, no emails):  POST /api/v1/mixed_people/api_search
- *   Bulk enrichment (uses credits, reveals emails): POST /api/v1/people/bulk_match
+ *   Bulk enrichment (credits, emails): POST /api/v1/people/bulk_match
  */
 
 const APOLLO_BASE = "https://api.apollo.io/api/v1";
@@ -43,28 +40,44 @@ function apolloHeaders(key) {
   };
 }
 
+function asArray(v) {
+  return Array.isArray(v)
+    ? v.filter(Boolean)
+    : String(v || "")
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
+}
+
 /* Build the Apollo search payload from the front-end filters. */
 function buildSearchBody(f, perPage, page) {
-  const arr = (v) =>
-    Array.isArray(v)
-      ? v.filter(Boolean)
-      : String(v || "")
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean);
-
   const body = { page, per_page: perPage };
   if (f.keywords) body.q_keywords = String(f.keywords).trim();
-  const titles = arr(f.titles);
+
+  const titles = asArray(f.titles);
   if (titles.length) body["person_titles"] = titles;
-  const senior = arr(f.seniorities);
+
+  const senior = asArray(f.seniorities);
   if (senior.length) body["person_seniorities"] = senior;
-  const ploc = arr(f.personLocations);
+
+  const ploc = asArray(f.personLocations);
   if (ploc.length) body["person_locations"] = ploc;
-  const oloc = arr(f.orgLocations);
+
+  const oloc = asArray(f.orgLocations);
   if (oloc.length) body["organization_locations"] = oloc;
-  const head = arr(f.headcount); // e.g. "1,10" or "51,200"
+
+  const head = asArray(f.headcount); // e.g. "1,10" or "51,200"
   if (head.length) body["organization_num_employees_ranges"] = head;
+
+  // Technology / eCommerce platform filter — strong proxy for DTC / online
+  // fashion & retail brands (e.g. shopify, magento, woo_commerce, bigcommerce).
+  const tech = asArray(f.technologies);
+  if (tech.length) body["currently_using_any_of_technology_uids"] = tech;
+
+  // Industry-style company keyword tags. Sent only when present.
+  const orgkw = asArray(f.orgKeywords);
+  if (orgkw.length) body["q_organization_keyword_tags"] = orgkw;
+
   // Only pull contacts Apollo believes have a usable email.
   body["contact_email_status"] = ["verified", "likely to engage"];
   return body;
@@ -141,12 +154,14 @@ module.exports = async function handler(req, res) {
             ? " (403 — this usually means the key is not a MASTER api key)"
             : r.status === 401
             ? " (401 — check the API key value)"
+            : r.status === 422
+            ? " (422 — a filter value was rejected; try removing Industry or Platform filters)"
             : r.status === 429
             ? " (429 — Apollo rate limit, try again shortly)"
             : "";
         return send(res, r.status, {
           error: `Apollo search failed${hint}.`,
-          detail: data && (data.error || data.message || data.raw) || null,
+          detail: (data && (data.error || data.message || data.raw)) || null,
         });
       }
 
@@ -167,7 +182,6 @@ module.exports = async function handler(req, res) {
   let enriched = false;
   if (reveal && leads.length) {
     try {
-      // Bulk match in chunks of 10 (Apollo bulk_match limit).
       for (let i = 0; i < leads.length; i += 10) {
         const chunk = leads.slice(i, i + 10);
         const details = chunk.map((l) => ({
@@ -196,7 +210,6 @@ module.exports = async function handler(req, res) {
         enriched = true;
       }
     } catch (e) {
-      // Don't fail the whole request if enrichment hiccups; return search rows.
       enriched = false;
     }
   }
