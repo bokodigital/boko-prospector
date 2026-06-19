@@ -36,6 +36,9 @@
   .check{display:flex;align-items:flex-start;gap:10px;background:var(--lilac);border:1.5px solid var(--line);border-radius:10px;padding:12px 13px}
   .check input{width:18px;height:18px;margin-top:1px;accent-color:#000}
   .check .t{font-size:12.5px}
+  .techrow{display:flex;flex-wrap:wrap;gap:10px}
+  .chk{display:flex;align-items:center;gap:7px;background:var(--lilac);border:1.5px solid var(--line);border-radius:10px;padding:9px 13px;font-size:13px;font-weight:500;cursor:pointer}
+  .chk input{width:16px;height:16px;accent-color:#000;cursor:pointer}
   .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:24px}
   .btn{font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;border:none;border-radius:10px;padding:13px 26px;display:inline-flex;align-items:center;gap:9px;transition:transform .06s,opacity .15s}
   .btn:active{transform:translateY(1px)}
@@ -90,9 +93,14 @@
     <form id="genForm">
       <div class="grid">
         <div class="field full">
-          <label for="keywords">Industry / keywords</label>
-          <input id="keywords" placeholder="e.g. sustainable fashion, activewear, ecommerce" />
-          <span class="hint">Free-text match on company & industry. Combine with the filters below to narrow results.</span>
+          <label for="industry">Industry <span class="hint">(company keyword tags)</span></label>
+          <input id="industry" placeholder="e.g. fashion, apparel, retail, ecommerce" />
+          <span class="hint">Filters by the company's industry/keyword tags. Comma-separated. This is the reliable way to target fashion — preferred over the free-text box below.</span>
+        </div>
+        <div class="field full">
+          <label for="keywords">Free-text keywords <span class="hint">(use sparingly)</span></label>
+          <input id="keywords" placeholder="optional — e.g. swimwear" />
+          <span class="hint">⚠️ Literal text match — every word must appear on the profile, so it narrows hard and can return zero. Leave blank unless you have one strong term.</span>
         </div>
         <div class="field">
           <label for="titles">Job titles</label>
@@ -123,6 +131,16 @@
           <label for="headcount">Company size (headcount)</label>
           <input id="headcount" placeholder="e.g. 1,10 | 11,50 | 51,200" />
           <span class="hint">One or more ranges as low,high — separate multiple ranges with a space. Optional.</span>
+        </div>
+        <div class="field full">
+          <label>eCommerce platform <span class="hint">(optional — strong DTC fashion proxy)</span></label>
+          <div class="techrow">
+            <label class="chk"><input type="checkbox" class="tech" value="shopify" /> Shopify</label>
+            <label class="chk"><input type="checkbox" class="tech" value="magento" /> Magento</label>
+            <label class="chk"><input type="checkbox" class="tech" value="woo_commerce" /> WooCommerce</label>
+            <label class="chk"><input type="checkbox" class="tech" value="bigcommerce" /> BigCommerce</label>
+          </div>
+          <span class="hint">Narrows to companies running these platforms — captures DTC / online fashion &amp; retail brands.</span>
         </div>
         <div class="field">
           <label for="count">Number of leads <span class="hint">(max 200)</span></label>

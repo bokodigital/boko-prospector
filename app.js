@@ -68,11 +68,13 @@ document.addEventListener("DOMContentLoaded", () => {
       count: parseInt(countEl.value, 10) || 25,
       filters: {
         keywords: $("keywords").value.trim(),
+        orgKeywords: $("industry").value.trim(),
         titles: $("titles").value.trim(),
         seniorities: $("seniorities").value.trim(),
         personLocations: $("personLocations").value.trim(),
         orgLocations: $("orgLocations").value.trim(),
         headcount: $("headcount").value.trim().split(/\s+/).filter(Boolean),
+        technologies: Array.from(document.querySelectorAll(".tech:checked")).map((c) => c.value),
       },
     };
 
@@ -97,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       const { headers, map } = shape(data.leads, platform);
       const dataRows = data.leads.map(map);
-      LAST = { headers, dataRows, platform, fileBase: ($("keywords").value.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "prospects") };
+      LAST = { headers, dataRows, platform, fileBase: (($("industry").value.trim() || $("keywords").value.trim() || "prospects").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "prospects") };
       renderTable(headers, dataRows);
       const names = { hubspot: "HubSpot", klaviyo: "Klaviyo", mailchimp: "Mailchimp" };
       const withEmail = data.leads.filter((l) => l.email).length;
