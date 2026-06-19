@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Boko B2B Prospector</title>
+<meta name="description" content="Find real B2B prospects by industry, role and location via Apollo — export to HubSpot, Klaviyo or Mailchimp. By Boko Digital." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{--lime:#BFFC00;--black:#000;--lilac:#F8F9FC;--white:#fff;--line:#e3e6ef}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Poppins',system-ui,Arial,sans-serif;background:var(--lilac);color:var(--black);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  header{background:var(--black);color:#fff;padding:18px 0}
+  .nav{display:flex;align-items:center;justify-content:space-between}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:22px;letter-spacing:-.5px}
+  .nav .tagline{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--lime);font-weight:600}
+  .hero{background:var(--black);color:#fff;padding:42px 0 60px}
+  .hero h1{font-size:44px;font-weight:700;line-height:1.05;letter-spacing:-1px;max-width:760px}
+  .hero h1 .hl{color:var(--lime)}
+  .hero p{margin-top:14px;max-width:660px;color:#cfd2db;font-size:15px}
+  .panel{background:#fff;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.10);margin-top:-32px;padding:32px;position:relative}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field.full{grid-column:1 / -1}
+  label{font-weight:600;font-size:13px}
+  .hint{font-size:12px;color:#73798a;font-weight:400}
+  input,select,textarea{font-family:inherit;font-size:14px;color:var(--black);border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;background:var(--lilac);outline:none;width:100%;transition:border-color .15s,box-shadow .15s}
+  input:focus,select:focus,textarea:focus{border-color:var(--black);box-shadow:0 0 0 3px rgba(191,252,0,.45);background:#fff}
+  .rangewrap{display:flex;align-items:center;gap:14px}
+  input[type=range]{accent-color:var(--black);padding:0}
+  .count{min-width:58px;text-align:center;font-weight:700;font-size:18px;background:var(--lime);border-radius:8px;padding:6px 4px}
+  .check{display:flex;align-items:flex-start;gap:10px;background:var(--lilac);border:1.5px solid var(--line);border-radius:10px;padding:12px 13px}
+  .check input{width:18px;height:18px;margin-top:1px;accent-color:#000}
+  .check .t{font-size:12.5px}
+  .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:24px}
+  .btn{font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;border:none;border-radius:10px;padding:13px 26px;display:inline-flex;align-items:center;gap:9px;transition:transform .06s,opacity .15s}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--lime);color:#000}
+  .btn-dark{background:#000;color:#fff}
+  .btn-ghost{background:transparent;color:#000;border:1.5px solid var(--line)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+  .spinner{width:15px;height:15px;border:2.5px solid rgba(0,0,0,.25);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;display:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loading .spinner{display:inline-block}
+  .notice{background:#fff8d6;border:1.5px solid #ecd98a;border-radius:10px;padding:13px 15px;font-size:12.5px;color:#5b4e15;margin-top:18px;line-height:1.5}
+  .notice b{font-weight:700}
+  .msg{margin-top:16px;font-size:13px;padding:12px 14px;border-radius:10px;display:none}
+  .msg.err{display:block;background:#fdecec;border:1.5px solid #f3b4b4;color:#7a1d1d}
+  .msg.ok{display:block;background:#eefae0;border:1.5px solid #cde9a6;color:#3c5417}
+  .results{margin-top:28px;display:none}
+  .results.show{display:block}
+  .results-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+  .results-head h2{font-size:20px;text-transform:uppercase;letter-spacing:.5px}
+  .pill{background:#000;color:var(--lime);font-weight:600;font-size:12px;border-radius:999px;padding:5px 13px}
+  .tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px;max-height:430px}
+  table{border-collapse:collapse;width:100%;font-size:12.5px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+  th{background:#000;color:#fff;position:sticky;top:0;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+  tr:nth-child(even) td{background:#fafbff}
+  footer{background:#000;color:#aeb2bd;margin-top:56px;padding:30px 0;font-size:12px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer a{color:var(--lime);text-decoration:none}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}.hero h1{font-size:32px}.panel{padding:22px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <div class="logo">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27 L27 5 M27 5 H13 M27 5 V19" fill="none" stroke="#BFFC00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>boko</span>
+    </div>
+    <span class="tagline">Strategize. Execute. Deliver.</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>B2B <span class="hl">Prospector</span></h1>
+    <p>Find real business prospects by industry, role, seniority and location through Apollo's database — then export a clean list formatted for HubSpot, Klaviyo, or Mailchimp.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="panel">
+    <form id="genForm">
+      <div class="grid">
+        <div class="field full">
+          <label for="keywords">Industry / keywords</label>
+          <input id="keywords" placeholder="e.g. sustainable fashion, activewear, ecommerce" />
+          <span class="hint">Free-text match on company & industry. Combine with the filters below to narrow results.</span>
+        </div>
+        <div class="field">
+          <label for="titles">Job titles</label>
+          <input id="titles" placeholder="e.g. founder, marketing manager, buyer" />
+          <span class="hint">Comma-separated. Matches similar titles too.</span>
+        </div>
+        <div class="field">
+          <label for="seniorities">Seniority</label>
+          <input id="seniorities" list="seniorityList" placeholder="e.g. owner, founder, director" />
+          <datalist id="seniorityList">
+            <option>owner</option><option>founder</option><option>c_suite</option><option>partner</option>
+            <option>vp</option><option>head</option><option>director</option><option>manager</option>
+            <option>senior</option><option>entry</option><option>intern</option>
+          </datalist>
+          <span class="hint">Comma-separated from: owner, founder, c_suite, vp, head, director, manager…</span>
+        </div>
+        <div class="field">
+          <label for="personLocations">Prospect location</label>
+          <input id="personLocations" placeholder="e.g. Australia, Sydney, Melbourne" />
+          <span class="hint">Where the person is based. Comma-separated.</span>
+        </div>
+        <div class="field">
+          <label for="orgLocations">Company HQ location</label>
+          <input id="orgLocations" placeholder="e.g. Australia" />
+          <span class="hint">Where their employer is headquartered. Optional.</span>
+        </div>
+        <div class="field full">
+          <label for="headcount">Company size (headcount)</label>
+          <input id="headcount" placeholder="e.g. 1,10 | 11,50 | 51,200" />
+          <span class="hint">One or more ranges as low,high — separate multiple ranges with a space. Optional.</span>
+        </div>
+        <div class="field">
+          <label for="count">Number of leads <span class="hint">(max 200)</span></label>
+          <div class="rangewrap">
+            <input type="range" id="count" min="10" max="200" step="10" value="25" />
+            <span class="count" id="countVal">25</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="platform">Export format</label>
+          <select id="platform">
+            <option value="hubspot">HubSpot</option>
+            <option value="klaviyo">Klaviyo</option>
+            <option value="mailchimp">Mailchimp</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="check" for="reveal">
+            <input type="checkbox" id="reveal" />
+            <span class="t"><b>Reveal verified emails</b> — uses Apollo credits. Leave off to preview prospects (names, titles, companies, LinkedIn) for free first.</span>
+          </label>
+        </div>
+        <div class="field">
+          <label for="passcode">Access passcode</label>
+          <input id="passcode" type="password" placeholder="If your deployment set APP_PASSWORD" />
+          <span class="hint">Protects your Apollo credits on a shared URL. Leave blank if none was set.</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary" id="genBtn"><span class="spinner"></span><span class="lbl">🔎 Find prospects</span></button>
+        <button type="button" class="btn btn-dark" id="csvBtn" disabled>⬇ Download CSV</button>
+        <button type="button" class="btn btn-ghost" id="resetBtn">Reset</button>
+      </div>
+
+      <div class="msg" id="msg"></div>
+
+      <div class="notice">
+        <b>Compliant use:</b> these are real B2B business contacts from Apollo, intended for legitimate business-to-business outreach. You are responsible for honouring the Australian Spam Act and GDPR — include a clear sender identity and a working unsubscribe option in every campaign, and don't email people who've opted out.
+      </div>
+    </form>
+
+    <div class="results" id="results">
+      <div class="results-head">
+        <h2>Results</h2>
+        <span class="pill" id="pill"></span>
+      </div>
+      <div class="tablewrap">
+        <table id="tbl"><thead></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Boko Digital — Strategize. Execute. Deliver.</span>
+    <span>Powered by Apollo · <a href="https://boko.com.au">boko.com.au</a></span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
