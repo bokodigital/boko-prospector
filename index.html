@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Boko B2B Prospector</title>
-<meta name="description" content="Find real B2B prospects by industry, role and location via Apollo — export to HubSpot, Klaviyo or Mailchimp. By Boko Digital." />
+<meta name="description" content="Find real B2B prospects — one click. By Boko Digital." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,11 +18,23 @@
   .nav{display:flex;align-items:center;justify-content:space-between}
   .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:22px;letter-spacing:-.5px}
   .nav .tagline{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--lime);font-weight:600}
-  .hero{background:var(--black);color:#fff;padding:42px 0 60px}
-  .hero h1{font-size:44px;font-weight:700;line-height:1.05;letter-spacing:-1px;max-width:760px}
+  .hero{background:var(--black);color:#fff;padding:40px 0 58px}
+  .hero h1{font-size:44px;font-weight:700;line-height:1.05;letter-spacing:-1px}
   .hero h1 .hl{color:var(--lime)}
-  .hero p{margin-top:14px;max-width:660px;color:#cfd2db;font-size:15px}
-  .panel{background:#fff;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.10);margin-top:-32px;padding:32px;position:relative}
+  .hero p{margin-top:14px;max-width:640px;color:#cfd2db;font-size:15px}
+  .panel{background:#fff;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.10);margin-top:-30px;padding:30px;position:relative}
+
+  .step{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#000;background:var(--lime);display:inline-block;padding:4px 11px;border-radius:6px;margin-bottom:12px}
+  .presets{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:8px}
+  .preset{text-align:left;cursor:pointer;background:var(--lilac);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;transition:border-color .15s,transform .06s;font-family:inherit}
+  .preset:hover{border-color:#000}
+  .preset:active{transform:translateY(1px)}
+  .preset.active{border-color:#000;background:#f2ffcc}
+  .preset .pt{font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+  .preset .pd{font-size:12px;color:#6b7180;margin-top:4px}
+  .preset .ic{font-size:16px}
+
+  .divider{height:1px;background:var(--line);margin:24px 0 20px}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   .field{display:flex;flex-direction:column;gap:7px}
   .field.full{grid-column:1 / -1}
@@ -36,10 +48,18 @@
   .check{display:flex;align-items:flex-start;gap:10px;background:var(--lilac);border:1.5px solid var(--line);border-radius:10px;padding:12px 13px}
   .check input{width:18px;height:18px;margin-top:1px;accent-color:#000}
   .check .t{font-size:12.5px}
+  details.adv{margin-top:20px;border:1.5px solid var(--line);border-radius:12px;background:var(--lilac);overflow:hidden}
+  details.adv > summary{cursor:pointer;padding:13px 16px;font-weight:600;font-size:13px;list-style:none;display:flex;align-items:center;gap:8px}
+  details.adv > summary::-webkit-details-marker{display:none}
+  details.adv > summary .chev{transition:transform .15s}
+  details.adv[open] > summary .chev{transform:rotate(90deg)}
+  .adv-body{padding:6px 16px 18px}
   .techrow{display:flex;flex-wrap:wrap;gap:10px}
-  .chk{display:flex;align-items:center;gap:7px;background:var(--lilac);border:1.5px solid var(--line);border-radius:10px;padding:9px 13px;font-size:13px;font-weight:500;cursor:pointer}
+  .chk{display:flex;align-items:center;gap:7px;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:9px 13px;font-size:13px;font-weight:500;cursor:pointer}
   .chk input{width:16px;height:16px;accent-color:#000;cursor:pointer}
-  .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:24px}
+  .locked{font-size:11px;color:#a35; font-weight:600}
+
+  .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:22px}
   .btn{font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;border:none;border-radius:10px;padding:13px 26px;display:inline-flex;align-items:center;gap:9px;transition:transform .06s,opacity .15s}
   .btn:active{transform:translateY(1px)}
   .btn-primary{background:var(--lime);color:#000}
@@ -49,8 +69,6 @@
   .spinner{width:15px;height:15px;border:2.5px solid rgba(0,0,0,.25);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;display:none}
   @keyframes spin{to{transform:rotate(360deg)}}
   .loading .spinner{display:inline-block}
-  .notice{background:#fff8d6;border:1.5px solid #ecd98a;border-radius:10px;padding:13px 15px;font-size:12.5px;color:#5b4e15;margin-top:18px;line-height:1.5}
-  .notice b{font-weight:700}
   .msg{margin-top:16px;font-size:13px;padding:12px 14px;border-radius:10px;display:none}
   .msg.err{display:block;background:#fdecec;border:1.5px solid #f3b4b4;color:#7a1d1d}
   .msg.ok{display:block;background:#eefae0;border:1.5px solid #cde9a6;color:#3c5417}
@@ -67,7 +85,7 @@
   footer{background:#000;color:#aeb2bd;margin-top:56px;padding:30px 0;font-size:12px}
   footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   footer a{color:var(--lime);text-decoration:none}
-  @media(max-width:720px){.grid{grid-template-columns:1fr}.hero h1{font-size:32px}.panel{padding:22px}}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}.hero h1{font-size:32px}.panel{padding:20px}}
 </style>
 </head>
 <body>
@@ -84,66 +102,66 @@
 <section class="hero">
   <div class="wrap">
     <h1>B2B <span class="hl">Prospector</span></h1>
-    <p>Find real business prospects by industry, role, seniority and location through Apollo's database — then export a clean list formatted for HubSpot, Klaviyo, or Mailchimp.</p>
+    <p>Pick a ready-made search, set how many leads you want, and go. No complex filters to figure out — the presets are pre-tuned to return results.</p>
   </div>
 </section>
 
 <div class="wrap">
   <div class="panel">
     <form id="genForm">
+
+      <!-- STEP 1: PRESETS -->
+      <span class="step">Step 1 · Pick a search</span>
+      <div class="presets" id="presets">
+        <button type="button" class="preset" data-industry="fashion, apparel"
+          data-titles="founder, co-founder, owner, managing director, CEO"
+          data-seniorities="owner, founder, c_suite" data-location="Australia">
+          <span class="pt"><span class="ic">👟</span> Fashion — Founders &amp; Owners</span>
+          <span class="pd">Decision-makers at AU fashion &amp; apparel brands</span>
+        </button>
+        <button type="button" class="preset" data-industry="fashion, apparel"
+          data-titles="ecommerce manager, head of ecommerce, digital commerce manager, online store manager"
+          data-seniorities="manager, head, director" data-location="Australia">
+          <span class="pt"><span class="ic">🛒</span> Fashion — eCommerce Managers</span>
+          <span class="pd">Online / DTC leads at AU fashion brands</span>
+        </button>
+        <button type="button" class="preset" data-industry="fashion, apparel"
+          data-titles="retail operations manager, head of retail operations, area manager, retail manager"
+          data-seniorities="manager, head, director" data-location="Australia">
+          <span class="pt"><span class="ic">🏬</span> Fashion — Retail Ops</span>
+          <span class="pd">Store &amp; retail operations at AU fashion brands</span>
+        </button>
+        <button type="button" class="preset" data-industry="fashion, apparel"
+          data-titles="marketing manager, head of marketing, brand manager, cmo"
+          data-seniorities="manager, head, c_suite" data-location="Australia">
+          <span class="pt"><span class="ic">📣</span> Fashion — Marketing</span>
+          <span class="pd">Marketing &amp; brand leads at AU fashion brands</span>
+        </button>
+      </div>
+      <span class="hint">Tap a card to load it. You can tweak anything below, or open “More options” to customise.</span>
+
+      <div class="divider"></div>
+
+      <!-- STEP 2: SIMPLE FIELDS -->
+      <span class="step">Step 2 · Adjust if needed</span>
       <div class="grid">
-        <div class="field full">
-          <label for="industry">Industry <span class="hint">(company keyword tags)</span></label>
-          <input id="industry" placeholder="e.g. fashion, apparel, retail, ecommerce" />
-          <span class="hint">Filters by the company's industry/keyword tags. Comma-separated. This is the reliable way to target fashion — preferred over the free-text box below.</span>
-        </div>
-        <div class="field full">
-          <label for="keywords">Free-text keywords <span class="hint">(use sparingly)</span></label>
-          <input id="keywords" placeholder="optional — e.g. swimwear" />
-          <span class="hint">⚠️ Literal text match — every word must appear on the profile, so it narrows hard and can return zero. Leave blank unless you have one strong term.</span>
+        <div class="field">
+          <label for="industry">Industry</label>
+          <input id="industry" placeholder="e.g. fashion, apparel" />
+          <span class="hint">The company's industry. Comma-separated.</span>
         </div>
         <div class="field">
+          <label for="personLocations">Location</label>
+          <input id="personLocations" placeholder="e.g. Australia" value="Australia" />
+          <span class="hint">Country or city. Comma-separated.</span>
+        </div>
+        <div class="field full">
           <label for="titles">Job titles</label>
-          <input id="titles" placeholder="e.g. founder, marketing manager, buyer" />
-          <span class="hint">Comma-separated. Matches similar titles too.</span>
+          <input id="titles" placeholder="e.g. founder, marketing manager" />
+          <span class="hint">Comma-separated. Apollo also matches similar titles.</span>
         </div>
         <div class="field">
-          <label for="seniorities">Seniority</label>
-          <input id="seniorities" list="seniorityList" placeholder="e.g. owner, founder, director" />
-          <datalist id="seniorityList">
-            <option>owner</option><option>founder</option><option>c_suite</option><option>partner</option>
-            <option>vp</option><option>head</option><option>director</option><option>manager</option>
-            <option>senior</option><option>entry</option><option>intern</option>
-          </datalist>
-          <span class="hint">Comma-separated from: owner, founder, c_suite, vp, head, director, manager…</span>
-        </div>
-        <div class="field">
-          <label for="personLocations">Prospect location</label>
-          <input id="personLocations" placeholder="e.g. Australia, Sydney, Melbourne" />
-          <span class="hint">Where the person is based. Comma-separated.</span>
-        </div>
-        <div class="field">
-          <label for="orgLocations">Company HQ location</label>
-          <input id="orgLocations" placeholder="e.g. Australia" />
-          <span class="hint">Where their employer is headquartered. Optional.</span>
-        </div>
-        <div class="field full">
-          <label for="headcount">Company size (headcount)</label>
-          <input id="headcount" placeholder="e.g. 1,10 | 11,50 | 51,200" />
-          <span class="hint">One or more ranges as low,high — separate multiple ranges with a space. Optional.</span>
-        </div>
-        <div class="field full">
-          <label>eCommerce platform <span class="hint">(optional — strong DTC fashion proxy)</span></label>
-          <div class="techrow">
-            <label class="chk"><input type="checkbox" class="tech" value="shopify" /> Shopify</label>
-            <label class="chk"><input type="checkbox" class="tech" value="magento" /> Magento</label>
-            <label class="chk"><input type="checkbox" class="tech" value="woo_commerce" /> WooCommerce</label>
-            <label class="chk"><input type="checkbox" class="tech" value="bigcommerce" /> BigCommerce</label>
-          </div>
-          <span class="hint">Narrows to companies running these platforms — captures DTC / online fashion &amp; retail brands.</span>
-        </div>
-        <div class="field">
-          <label for="count">Number of leads <span class="hint">(max 200)</span></label>
+          <label for="count">How many leads? <span class="hint">(max 200)</span></label>
           <div class="rangewrap">
             <input type="range" id="count" min="10" max="200" step="10" value="25" />
             <span class="count" id="countVal">25</span>
@@ -157,19 +175,62 @@
             <option value="mailchimp">Mailchimp</option>
           </select>
         </div>
-        <div class="field">
+        <div class="field full">
           <label class="check" for="reveal">
             <input type="checkbox" id="reveal" />
-            <span class="t"><b>Reveal verified emails</b> — uses Apollo credits. Leave off to preview prospects (names, titles, companies, LinkedIn) for free first.</span>
+            <span class="t"><b>Include email addresses</b> — uses Apollo credits. Leave off first for a free preview of who matches; tick it to pull verified emails.</span>
           </label>
         </div>
-        <div class="field">
+        <div class="field full">
           <label for="passcode">Access passcode</label>
-          <input id="passcode" type="password" placeholder="If your deployment set APP_PASSWORD" />
-          <span class="hint">Protects your Apollo credits on a shared URL. Leave blank if none was set.</span>
+          <input id="passcode" type="password" placeholder="Your app passcode" />
+          <span class="hint">Set by your deployment to protect Apollo credits.</span>
         </div>
       </div>
 
+      <!-- ADVANCED (hidden by default) -->
+      <details class="adv">
+        <summary><span class="chev">▸</span> More options (seniority, company size, platform filter, keywords)</summary>
+        <div class="adv-body">
+          <div class="grid">
+            <div class="field">
+              <label for="seniorities">Seniority</label>
+              <input id="seniorities" list="seniorityList" placeholder="e.g. owner, founder, director" />
+              <datalist id="seniorityList">
+                <option>owner</option><option>founder</option><option>c_suite</option><option>partner</option>
+                <option>vp</option><option>head</option><option>director</option><option>manager</option>
+                <option>senior</option><option>entry</option><option>intern</option>
+              </datalist>
+            </div>
+            <div class="field">
+              <label for="orgLocations">Company HQ location</label>
+              <input id="orgLocations" placeholder="e.g. Australia" />
+            </div>
+            <div class="field full">
+              <label for="headcount">Company size (headcount)</label>
+              <input id="headcount" placeholder="e.g. 1,10 11,50 51,200" />
+              <span class="hint">Ranges as low,high separated by spaces. Optional.</span>
+            </div>
+            <div class="field full">
+              <label>eCommerce platform <span class="locked">⚠ needs paid Apollo plan</span></label>
+              <div class="techrow">
+                <label class="chk"><input type="checkbox" class="tech" value="shopify" /> Shopify</label>
+                <label class="chk"><input type="checkbox" class="tech" value="magento" /> Magento</label>
+                <label class="chk"><input type="checkbox" class="tech" value="woo_commerce" /> WooCommerce</label>
+                <label class="chk"><input type="checkbox" class="tech" value="bigcommerce" /> BigCommerce</label>
+              </div>
+              <span class="hint">Filters to brands on these platforms (great for DTC fashion) — only works on Apollo Basic or higher.</span>
+            </div>
+            <div class="field full">
+              <label for="keywords">Free-text keywords <span class="hint">(use sparingly)</span></label>
+              <input id="keywords" placeholder="optional — one strong word only" />
+              <span class="hint">⚠️ Literal match — every word must appear on the profile. Leave blank unless you really need it.</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- STEP 3: RUN -->
       <div class="actions">
         <button type="submit" class="btn btn-primary" id="genBtn"><span class="spinner"></span><span class="lbl">🔎 Find prospects</span></button>
         <button type="button" class="btn btn-dark" id="csvBtn" disabled>⬇ Download CSV</button>
@@ -178,8 +239,8 @@
 
       <div class="msg" id="msg"></div>
 
-      <div class="notice">
-        <b>Compliant use:</b> these are real B2B business contacts from Apollo, intended for legitimate business-to-business outreach. You are responsible for honouring the Australian Spam Act and GDPR — include a clear sender identity and a working unsubscribe option in every campaign, and don't email people who've opted out.
+      <div class="check" style="margin-top:16px;background:#fff8d6;border-color:#ecd98a">
+        <span class="t"><b>Compliant use:</b> real B2B contacts for legitimate business-to-business outreach. Honour the Australian Spam Act &amp; GDPR — identify yourself and include a working unsubscribe in every email.</span>
       </div>
     </form>
 

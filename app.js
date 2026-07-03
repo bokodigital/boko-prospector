@@ -57,6 +57,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const countEl = $("count");
   countEl.addEventListener("input", () => ($("countVal").textContent = countEl.value));
 
+  // One-click presets — fill proven, working filters so users don't type Apollo syntax.
+  document.querySelectorAll(".preset").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      $("industry").value = btn.dataset.industry || "";
+      $("titles").value = btn.dataset.titles || "";
+      $("seniorities").value = btn.dataset.seniorities || "";
+      $("personLocations").value = btn.dataset.location || "Australia";
+      $("keywords").value = "";
+      $("orgLocations").value = "";
+      $("headcount").value = "";
+      document.querySelectorAll(".tech").forEach((c) => (c.checked = false));
+      document.querySelectorAll(".preset").forEach((p) => p.classList.remove("active"));
+      btn.classList.add("active");
+      showMsg("Search loaded. Enter your passcode and click “Find prospects”. Leave “Include email addresses” off for a free preview first.", "ok");
+    });
+  });
+
   $("genForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     showMsg("", "");
@@ -134,6 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("resetBtn").addEventListener("click", () => {
     $("genForm").reset();
+    document.querySelectorAll(".preset").forEach((p) => p.classList.remove("active"));
     $("countVal").textContent = $("count").value;
     $("results").classList.remove("show");
     $("csvBtn").disabled = true;
