@@ -178,13 +178,13 @@
         <div class="field full">
           <label class="check" for="reveal">
             <input type="checkbox" id="reveal" />
-            <span class="t"><b>Include email addresses</b> — uses Apollo credits. Leave off first for a free preview of who matches; tick it to pull verified emails.</span>
+            <span class="t"><b>Include email addresses</b> 🔒 <b>password needed</b> — uses Apollo credits. Leave off for a free preview of who matches; tick it to pull verified emails (you'll be asked for the passcode).</span>
           </label>
         </div>
-        <div class="field full">
-          <label for="passcode">Access passcode</label>
-          <input id="passcode" type="password" placeholder="Your app passcode" />
-          <span class="hint">Set by your deployment to protect Apollo credits.</span>
+        <div class="field full" id="passcodeField" style="display:none">
+          <label for="passcode">Access passcode <span class="hint">(required to include emails)</span></label>
+          <input id="passcode" type="password" placeholder="Enter passcode to include emails" />
+          <span class="hint">Protects your Apollo credits — only needed when pulling email addresses.</span>
         </div>
       </div>
 

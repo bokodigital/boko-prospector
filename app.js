@@ -57,6 +57,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const countEl = $("count");
   countEl.addEventListener("input", () => ($("countVal").textContent = countEl.value));
 
+  // Passcode field only appears when the user asks to include emails.
+  const revealEl = $("reveal");
+  revealEl.addEventListener("change", () => {
+    $("passcodeField").style.display = revealEl.checked ? "" : "none";
+    if (revealEl.checked) $("passcode").focus();
+  });
+
   // One-click presets — fill proven, working filters so users don't type Apollo syntax.
   document.querySelectorAll(".preset").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -70,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll(".tech").forEach((c) => (c.checked = false));
       document.querySelectorAll(".preset").forEach((p) => p.classList.remove("active"));
       btn.classList.add("active");
-      showMsg("Search loaded. Enter your passcode and click “Find prospects”. Leave “Include email addresses” off for a free preview first.", "ok");
+      showMsg("Search loaded — just click “Find prospects” for a free preview. Tick “Include email addresses” (passcode needed) when you want verified emails.", "ok");
     });
   });
 
@@ -79,6 +86,10 @@ document.addEventListener("DOMContentLoaded", () => {
     showMsg("", "");
     const platform = $("platform").value;
     const reveal = $("reveal").checked;
+    if (reveal && !$("passcode").value.trim()) {
+      showMsg("A passcode is required to include email addresses. Enter it, or untick “Include email addresses” for a free preview.", "err");
+      return;
+    }
     const body = {
       passcode: $("passcode").value,
       reveal,
@@ -152,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("resetBtn").addEventListener("click", () => {
     $("genForm").reset();
     document.querySelectorAll(".preset").forEach((p) => p.classList.remove("active"));
+    $("passcodeField").style.display = "none";
     $("countVal").textContent = $("count").value;
     $("results").classList.remove("show");
     $("csvBtn").disabled = true;
