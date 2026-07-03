@@ -113,10 +113,11 @@ module.exports = async function handler(req, res) {
     return send(res, 400, { error: "Invalid JSON body." });
   }
 
-  // Passcode guard
-  if (process.env.APP_PASSWORD) {
+  // Passcode guard — only required for the credit-spending email reveal.
+  // Free previews (search without emails) need no passcode.
+  if (payload.reveal === true && process.env.APP_PASSWORD) {
     if (!payload.passcode || payload.passcode !== process.env.APP_PASSWORD) {
-      return send(res, 401, { error: "Incorrect or missing passcode." });
+      return send(res, 401, { error: "A passcode is required to include email addresses." });
     }
   }
 
