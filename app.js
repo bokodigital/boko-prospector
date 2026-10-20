@@ -19,6 +19,12 @@ function shape(rows, platform) {
       map: (r) => [r.email,r.first,r.last,r.title,r.company,r.domain,r.city,r.state,r.country,r.linkedin,r.email_status,r.source],
     };
   }
+  if (platform === "gohighlevel") {
+    return {
+      headers: ["First Name","Last Name","Email","Phone","Company Name","Website","Job Title","City","State","Country","LinkedIn URL","Tags","Lead Source"],
+      map: (r) => [r.first,r.last,r.email,"",r.company,r.domain,r.title,r.city,r.state,r.country,r.linkedin,"",r.source],
+    };
+  }
   return { // mailchimp
     headers: ["Email Address","First Name","Last Name","Job Title","Company","Website","City","State","Country","LinkedIn","Email Status","Lead Source"],
     map: (r) => [r.email,r.first,r.last,r.title,r.company,r.domain,r.city,r.state,r.country,r.linkedin,r.email_status,r.source],
